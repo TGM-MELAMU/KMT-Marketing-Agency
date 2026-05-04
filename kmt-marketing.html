@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -12,6 +12,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap"
     rel="stylesheet">
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 
   <style>
     :root {
@@ -155,6 +156,111 @@
     .hero-slide.active {
       opacity: 1;
     }
+
+    /* Lenis Smooth Scroll Styles */
+    html.lenis {
+      height: auto;
+    }
+
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
+    }
+
+    .lenis.lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+
+    .lenis.lenis-stopped {
+      overflow: hidden;
+    }
+
+    .lenis.lenis-scrolling iframe {
+      pointer-events: none;
+    }
+
+    /* Custom Animated Hamburger */
+    .hamburger {
+      width: 24px;
+      height: 16px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .hamburger span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background-color: #171717;
+      transition: transform 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6), opacity 0.3s ease;
+      transform-origin: center;
+    }
+    .mobile-menu-open .hamburger span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .mobile-menu-open .hamburger span:nth-child(2) {
+      opacity: 0;
+    }
+    .mobile-menu-open .hamburger span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* Prevent Flash of Unstyled Content on Desktop */
+    @media (min-width: 768px) {
+      #mobile-menu-btn {
+        display: none !important;
+      }
+    }
+
+    /* Floating Contact Widget */
+    .contact-widget-btn {
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .contact-widget-btn:hover {
+      transform: scale(1.1) translateY(-4px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Interactive Contact Widget */
+    .contact-widget-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 12px;
+      pointer-events: none;
+    }
+    .contact-widget-menu a {
+      opacity: 0;
+      transform: scale(0.5) translateY(20px);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .contact-widget-container.active .contact-widget-menu {
+      pointer-events: auto;
+    }
+    .contact-widget-container.active .contact-widget-menu a {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+    /* Staggered animation */
+    .contact-widget-container.active .contact-widget-menu a:nth-child(1) { transition-delay: 0.2s; }
+    .contact-widget-container.active .contact-widget-menu a:nth-child(2) { transition-delay: 0.1s; }
+    .contact-widget-container.active .contact-widget-menu a:nth-child(3) { transition-delay: 0s; }
+
+    /* Main Toggle Rotation */
+    #contact-widget-trigger i {
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .contact-widget-container.active #contact-widget-trigger i {
+      transform: rotate(135deg);
+    }
+
+    /* Hide widget when mobile menu is open */
+    body.mobile-menu-open #contact-widget {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(20px);
+      transition: all 0.4s ease;
+    }
   </style>
 </head>
 
@@ -168,25 +274,99 @@
   <nav class="fixed top-0 left-0 right-0 z-50 border-b border-black/5 bg-[#F5ECE5]/80 backdrop-blur-md">
     <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between w-full">
       <a href="#" class="display-font text-2xl font-medium tracking-tight text-[#171717]">KMT Marketing</a>
-      <div class="hidden md:flex items-center gap-8 text-sm font-normal">
+      <div class="hidden md:flex items-center gap-6 text-sm font-normal">
         <a href="#services" class="text-zinc-600 hover:text-[#171717] transition-colors">Services</a>
+        <span class="w-[1px] h-3 bg-black/10"></span>
         <a href="#process" class="text-zinc-600 hover:text-[#171717] transition-colors">Process</a>
+        <span class="w-[1px] h-3 bg-black/10"></span>
         <a href="#work" class="text-zinc-600 hover:text-[#171717] transition-colors">Work</a>
+        <span class="w-[1px] h-3 bg-black/10"></span>
         <a href="#about" class="text-zinc-600 hover:text-[#171717] transition-colors">About</a>
       </div>
       <div class="flex items-center gap-4">
-        <div
-          class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full border border-black/10 bg-black/5 text-xs font-normal text-zinc-600">
-          <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
-          Available for work
+        <div class="hidden md:flex items-center gap-2.5 px-3 py-1 text-[11px] font-normal tracking-wide text-zinc-500 border-r border-black/10 pr-6 mr-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#C8955A]"></span>
+          Available for new projects
         </div>
         <a href="#contact"
           class="bg-[#171717] text-white px-4 py-2 rounded-full text-sm font-normal hover:bg-black/80 transition-colors hidden sm:block">Let's
           Talk</a>
-        <button class="md:hidden text-zinc-600"><i data-lucide="menu" stroke-width="1.5" class="w-6 h-6"></i></button>
+        <button id="mobile-menu-btn" class="flex md:hidden p-2 -mr-2 text-[#171717] focus:outline-none" aria-label="Toggle Menu">
+          <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
       </div>
     </div>
   </nav>
+
+  <!-- Mobile Menu Overlay -->
+  <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/20 backdrop-blur-sm z-[60] opacity-0 pointer-events-none transition-opacity duration-500"></div>
+
+  <!-- Mobile Menu Drawer -->
+  <div id="mobile-menu-drawer" class="fixed top-0 left-0 bottom-0 w-[85%] max-w-sm bg-[#F5ECE5] z-[70] -translate-x-full transition-transform duration-700 ease-[cubic-bezier(0.68,-0.6,0.32,1.6)] flex flex-col shadow-2xl border-r border-black/10">
+    <div class="h-16 flex items-center justify-between px-6 border-b border-black/5">
+      <a href="#" class="display-font text-2xl font-medium tracking-tight text-[#171717]">KMT Marketing</a>
+      <button id="mobile-menu-close" class="p-2 -mr-2 text-[#171717] focus:outline-none">
+        <i data-lucide="x" stroke-width="1.5" class="w-6 h-6"></i>
+      </button>
+    </div>
+    
+    <div class="flex-grow flex flex-col justify-center px-8">
+      <nav class="flex flex-col gap-8">
+        <a href="#services" class="mobile-nav-link flex flex-col group">
+          <span class="text-[10px] uppercase tracking-[0.2em] text-[#C8955A] mb-1 font-medium opacity-0 group-hover:opacity-100 transition-opacity">01</span>
+          <span class="display-font text-4xl font-medium text-[#171717] group-hover:pl-4 transition-all duration-500">Services</span>
+        </a>
+        <a href="#process" class="mobile-nav-link flex flex-col group">
+          <span class="text-[10px] uppercase tracking-[0.2em] text-[#C8955A] mb-1 font-medium opacity-0 group-hover:opacity-100 transition-opacity">02</span>
+          <span class="display-font text-4xl font-medium text-[#171717] group-hover:pl-4 transition-all duration-500">Process</span>
+        </a>
+        <a href="#work" class="mobile-nav-link flex flex-col group">
+          <span class="text-[10px] uppercase tracking-[0.2em] text-[#C8955A] mb-1 font-medium opacity-0 group-hover:opacity-100 transition-opacity">03</span>
+          <span class="display-font text-4xl font-medium text-[#171717] group-hover:pl-4 transition-all duration-500">Work</span>
+        </a>
+        <a href="#about" class="mobile-nav-link flex flex-col group">
+          <span class="text-[10px] uppercase tracking-[0.2em] text-[#C8955A] mb-1 font-medium opacity-0 group-hover:opacity-100 transition-opacity">04</span>
+          <span class="display-font text-4xl font-medium text-[#171717] group-hover:pl-4 transition-all duration-500">About</span>
+        </a>
+      </nav>
+    </div>
+
+    <div class="p-8 border-t border-black/5 bg-black/[0.02]">
+      <p class="text-[10px] tracking-[0.2em] uppercase text-zinc-400 mb-6 font-medium">Get In Touch</p>
+      <a href="#contact" class="mobile-nav-link inline-flex items-center gap-3 bg-[#171717] text-[#F5ECE5] px-8 py-4 rounded-full text-sm font-normal hover:bg-black/90 transition-all shadow-lg w-full justify-between">
+        Start a Project <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </a>
+      <div class="flex gap-6 mt-10">
+        <a href="https://www.instagram.com/kmt_marketing/?hl=en" target="_blank" class="text-zinc-400 hover:text-[#171717] transition-colors" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+        </a>
+        <a href="#" class="text-zinc-400 hover:text-[#171717] transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+        <a href="#" class="text-zinc-400 hover:text-[#171717] transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Mobile Menu State Classes */
+    body.mobile-menu-open {
+      overflow: hidden;
+    }
+    body.mobile-menu-open #mobile-menu-overlay {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    body.mobile-menu-open #mobile-menu-drawer {
+      transform: translateX(0);
+    }
+  </style>
 
   <main class="flex-grow z-10 relative">
 
@@ -816,8 +996,13 @@
         <p class="text-sm text-zinc-600 max-w-sm leading-relaxed mb-6 font-normal">A strategic marketing and design
           agency crafting meaningful brand experiences that resonate.</p>
         <div class="flex gap-4 text-zinc-500">
-          <a href="#" class="hover:text-[#171717] transition-colors"><i data-lucide="instagram" stroke-width="1.5"
-              class="w-5 h-5"></i></a>
+          <a href="https://www.instagram.com/kmt_marketing/?hl=en" target="_blank" class="hover:text-[#171717] transition-colors" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
           <a href="#" class="hover:text-[#171717] transition-colors"><i data-lucide="twitter" stroke-width="1.5"
               class="w-5 h-5"></i></a>
           <a href="#" class="hover:text-[#171717] transition-colors"><i data-lucide="linkedin" stroke-width="1.5"
@@ -853,6 +1038,44 @@
     </div>
   </footer>
 
+  <!-- Floating Contact Widget -->
+  <div id="contact-widget" class="contact-widget-container fixed bottom-8 right-8 z-[100] flex flex-col items-center">
+    <div class="contact-widget-menu">
+      <!-- WhatsApp -->
+      <a href="https://wa.me/27679964744" target="_blank" rel="noopener noreferrer" 
+        class="contact-widget-btn w-12 h-12 bg-emerald-500 text-white rounded-2xl flex items-center justify-center shadow-lg group relative"
+        aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        <span class="absolute right-full mr-4 px-3 py-1.5 rounded-lg bg-[#171717] text-[#F5ECE5] text-xs font-medium opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap shadow-xl">WhatsApp</span>
+      </a>
+      
+      <!-- Phone -->
+      <a href="tel:+27679964744" 
+        class="contact-widget-btn w-12 h-12 bg-[#C8955A] text-white rounded-2xl flex items-center justify-center shadow-lg group relative"
+        aria-label="Phone Call">
+        <i data-lucide="phone" stroke-width="1.5" class="w-5 h-5"></i>
+        <span class="absolute right-full mr-4 px-3 py-1.5 rounded-lg bg-[#171717] text-[#F5ECE5] text-xs font-medium opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap shadow-xl">Call Us</span>
+      </a>
+
+      <!-- Email -->
+      <a href="mailto:hello@kmtmarketing.co.za" 
+        class="contact-widget-btn w-12 h-12 bg-[#171717] text-white rounded-2xl flex items-center justify-center shadow-lg group relative"
+        aria-label="Email Us">
+        <i data-lucide="mail" stroke-width="1.5" class="w-5 h-5"></i>
+        <span class="absolute right-full mr-4 px-3 py-1.5 rounded-lg bg-[#171717] text-[#F5ECE5] text-xs font-medium opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap shadow-xl">Email Us</span>
+      </a>
+    </div>
+
+    <!-- Main Toggle Button -->
+    <button id="contact-widget-trigger" 
+      class="w-14 h-14 bg-[#171717] text-white rounded-2xl flex items-center justify-center shadow-2xl hover:bg-black transition-colors focus:outline-none"
+      aria-label="Open Contact Options">
+      <i data-lucide="plus" stroke-width="1.5" class="w-7 h-7"></i>
+    </button>
+  </div>
+
   <script>
     lucide.createIcons();
 
@@ -873,6 +1096,93 @@
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.12 });
     reveals.forEach(el => observer.observe(el));
+
+    // Controlled Smooth Scroll (Lenis)
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smooth: true,
+      mouseMultiplier: 1,
+      smoothTouch: false,
+      touchMultiplier: 2,
+      infinite: false,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    // Handle anchor links with Lenis
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        
+        if (targetId === '#') {
+          // Scroll to top
+          closeMobileMenu();
+          lenis.scrollTo(0, {
+            duration: 1.5,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          });
+          return;
+        }
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          // Close mobile menu if open
+          closeMobileMenu();
+
+          lenis.scrollTo(targetElement, {
+            offset: -80, // Adjust based on your header height
+            duration: 1.5,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          });
+        }
+      });
+    });
+
+    // Mobile Menu Logic
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenuClose = document.getElementById('mobile-menu-close');
+    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+    const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
+
+    function openMobileMenu() {
+      document.body.classList.add('mobile-menu-open');
+      lenis.stop(); // Stop scroll when menu is open
+    }
+
+    function closeMobileMenu() {
+      document.body.classList.remove('mobile-menu-open');
+      lenis.start(); // Resume scroll
+    }
+
+    if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileMenu);
+    if (mobileMenuClose) mobileMenuClose.addEventListener('click', closeMobileMenu);
+    if (mobileMenuOverlay) mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+
+    // Contact Widget Toggle
+    const contactWidgetTrigger = document.getElementById('contact-widget-trigger');
+    const contactWidgetContainer = document.getElementById('contact-widget');
+
+    if (contactWidgetTrigger && contactWidgetContainer) {
+      contactWidgetTrigger.addEventListener('click', () => {
+        contactWidgetContainer.classList.toggle('active');
+      });
+      
+      // Close when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!contactWidgetContainer.contains(e.target)) {
+          contactWidgetContainer.classList.remove('active');
+        }
+      });
+    }
   </script>
 
 </body>

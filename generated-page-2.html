@@ -1,4 +1,4 @@
-<html lang="en" class="scroll-smooth"><head><meta charset="UTF-8">
+<html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KMT Marketing</title>
 <script src="https://cdn.tailwindcss.com"></script>
@@ -6,6 +6,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <style>
 body {
 font-family: 'Inter', sans-serif;
@@ -17,6 +18,27 @@ font-family: 'Inter', sans-serif;
 .img-placeholder-4 { background: radial-gradient(circle at bottom right, #EAE0D8 0%, #F5ECE5 80%); }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Lenis Smooth Scroll Styles */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
 </style></head>
 <body class="bg-[#F5ECE5] text-[#171717] antialiased selection:bg-[#171717] selection:text-[#F5ECE5] flex flex-col min-h-screen relative overflow-x-hidden">
 
@@ -303,7 +325,7 @@ font-family: 'Inter', sans-serif;
                 <a href="#" class="text-xl font-medium tracking-tight text-[#171717] inline-block mb-4">KMT MARKETING</a>
                 <p class="text-base text-zinc-600 max-w-sm leading-relaxed mb-6 font-normal">A strategic marketing and design agency crafting meaningful brand experiences that resonate.</p>
                 <div class="flex gap-4 text-zinc-500">
-                    <a href="#" class="hover:text-[#171717] transition-colors"><i data-lucide="instagram" stroke-width="1.5" class="w-5 h-5"></i></a>
+                    <a href="https://www.instagram.com/kmt_marketing/?hl=en" target="_blank" class="hover:text-[#171717] transition-colors"><i data-lucide="instagram" stroke-width="1.5" class="w-5 h-5"></i></a>
                     <a href="#" class="hover:text-[#171717] transition-colors"><i data-lucide="twitter" stroke-width="1.5" class="w-5 h-5"></i></a>
                     <a href="#" class="hover:text-[#171717] transition-colors"><i data-lucide="linkedin" stroke-width="1.5" class="w-5 h-5"></i></a>
                 </div>
@@ -339,6 +361,44 @@ font-family: 'Inter', sans-serif;
 
     <script>
         lucide.createIcons();
+
+        // Controlled Smooth Scroll (Lenis)
+        const lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          direction: 'vertical',
+          gestureDirection: 'vertical',
+          smooth: true,
+          mouseMultiplier: 1,
+          smoothTouch: false,
+          touchMultiplier: 2,
+          infinite: false,
+        });
+
+        function raf(time) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+
+        // Handle anchor links with Lenis
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+              lenis.scrollTo(targetElement, {
+                offset: -80,
+                duration: 1.5,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+              });
+            }
+          });
+        });
     </script>
 
 </body></html>
