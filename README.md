@@ -1,4 +1,5 @@
-KMT Marketing Website
+# KMT Marketing Website
+
 A modern, responsive marketing agency website built for KMT Marketing, showcasing the agency's services, portfolio, brand identity, and client-focused approach.
 
 Live Website
@@ -47,7 +48,9 @@ Services Highlighted
 - Public Relations & Storytelling
 
 Preview
+
 The website features a clean, contemporary interface with bold typography, engaging visuals, smooth transitions, and strategically placed calls-to-action designed to convert visitors into clients.
 
 License
+
 This project was designed and developed as a custom website for KMT Marketing. Please do not copy or redistribute the design without permission.
